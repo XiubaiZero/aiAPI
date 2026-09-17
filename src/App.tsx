@@ -178,6 +178,9 @@ function UsageCalculator({ inputTokens, outputTokens, apiCalls, formError, submi
   inputTokens: string; outputTokens: string; apiCalls: string; formError: string; submitted: boolean
   results: ReturnType<typeof calculateCosts>; onInputTokens: (value: string) => void; onOutputTokens: (value: string) => void; onApiCalls: (value: string) => void; onCalculate: () => void
 }) {
+  const exampleModel = models.find((model) => model.id === 'gpt-5.6-terra')!
+  const [example] = calculateCosts([exampleModel], 200, 1000, 100, exchangeRate.usdToCny)
+
   return <>
     <div className="section-heading">
       <div><span className="section-kicker">用量统计</span><h2>按 token 预估 API 成本</h2></div>
@@ -193,6 +196,25 @@ function UsageCalculator({ inputTokens, outputTokens, apiCalls, formError, submi
       <div className="calculation-mode"><span>计算方式</span><strong>Token</strong><span className="mode-note">首版仅支持 token 计算</span></div>
       {formError && <p role="alert" className="form-error">{formError}</p>}
       <button className="calculate-button" onClick={onCalculate}><Calculator size={18} />开始计算<ChevronRight size={17} /></button>
+    </section>
+    <section className="formula-guide" aria-labelledby="formula-title">
+      <div>
+        <span className="section-kicker">如何计算</span>
+        <h3 id="formula-title">成本公式与示例</h3>
+        <p>“输入 token 数量”和“输出 token 数量”均表示<strong>单次 API 调用的平均 token 数</strong>；系统会先乘以 API 调用次数，再按对应模型每 100 万 tokens 的官方单价计算。</p>
+      </div>
+      <div className="formula-grid">
+        <div className="formula-item"><span>输入成本</span><code>输入 tokens × 调用次数 ÷ 1,000,000 × 输入单价</code></div>
+        <div className="formula-item"><span>输出成本</span><code>输出 tokens × 调用次数 ÷ 1,000,000 × 输出单价</code></div>
+        <div className="formula-item"><span>总成本</span><code>输入成本 + 输出成本</code></div>
+      </div>
+      <div className="formula-example">
+        <strong>示例：{exampleModel.name}</strong>
+        <p>输入 200 tokens、输出 1,000 tokens、调用 100 次；输入单价 {currency.format(exampleModel.inputPricePerMillionUsd)} / 百万 tokens，输出单价 {currency.format(exampleModel.outputPricePerMillionUsd)} / 百万 tokens。</p>
+        <p><code>输入：200 × 100 ÷ 1,000,000 × {currency.format(exampleModel.inputPricePerMillionUsd)} = {currency.format(example.inputCostUsd)}</code></p>
+        <p><code>输出：1,000 × 100 ÷ 1,000,000 × {currency.format(exampleModel.outputPricePerMillionUsd)} = {currency.format(example.outputCostUsd)}</code></p>
+        <p className="example-total">合计：<strong>{currency.format(example.totalCostUsd)}</strong> <span>≈ {cnyCurrency.format(example.totalCostCny)}</span></p>
+      </div>
     </section>
     {submitted && <section className="results" aria-live="polite">
       <div className="results-title"><div><span className="section-kicker">计算结果</span><h2>各模型总成本</h2></div><p>按总成本由低到高排序</p></div>
