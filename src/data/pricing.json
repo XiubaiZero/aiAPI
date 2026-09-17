@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-17T17:21:18+08:00",
+  "updatedAt": "2026-09-17T21:06:33+08:00",
   "models": [
     {
       "id": "gpt-6-astra",
@@ -10,7 +10,7 @@
       "inputPricePerMillionUsd": 10,
       "outputPricePerMillionUsd": 50,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
     },
     {
@@ -22,7 +22,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 12,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
     },
     {
@@ -34,7 +34,7 @@
       "inputPricePerMillionUsd": 0.2,
       "outputPricePerMillionUsd": 1.2,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
     },
     {
@@ -46,7 +46,7 @@
       "inputPricePerMillionUsd": 5,
       "outputPricePerMillionUsd": 25,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
     },
     {
@@ -58,7 +58,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
     },
     {
@@ -70,7 +70,7 @@
       "inputPricePerMillionUsd": 1,
       "outputPricePerMillionUsd": 5,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
     },
     {
@@ -82,7 +82,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 12,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "短上下文标准按量付费文本 token 定价；长上下文、缓存与 Batch 另行计费。"
     },
     {
@@ -94,7 +94,7 @@
       "inputPricePerMillionUsd": 0.75,
       "outputPricePerMillionUsd": 3.75,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "标准按量付费文本 token 定价；优惠期及服务层级以官方页面为准。"
     },
     {
@@ -106,7 +106,7 @@
       "inputPricePerMillionUsd": 0.25,
       "outputPricePerMillionUsd": 1.5,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-17T17:21:18+08:00",
+      "checkedAt": "2026-09-17T21:06:33+08:00",
       "note": "标准按量付费文本 token 定价；不含缓存、Batch 与其他模态费用。"
     }
   ]
