@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI API 价格助手 - 提交文档</title>
+    <style>
+      :root { color: #111827; background: #fffdf8; font-family: -apple-system, BlinkMacSystemFont, "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+      body { margin: 0; } main { margin: 0 auto; max-width: 820px; padding: 52px 24px 80px; }
+      h1 { font-size: clamp(32px, 7vw, 50px); letter-spacing: -.05em; margin: 0 0 12px; } h2 { border-top: 1px solid #e5e7eb; font-size: 23px; margin-top: 40px; padding-top: 28px; }
+      p, li { font-size: 16px; line-height: 1.8; } a { color: #4938bd; font-weight: 700; } .note { background: #f0edff; border-radius: 12px; padding: 14px 18px; }
+      .label { color: #5d4dd2; font-size: 13px; font-weight: 800; letter-spacing: .08em; } .muted { color: #667085; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="label">最终提交文档</div>
+      <h1>AI API 价格助手</h1>
+      <p class="muted">方向 A：海外 AI API 价格对比与用量估算 · 提交人：XiubaiZero</p>
+
+      <h2>第 0 部分：数字身份</h2>
+      <ol>
+        <li>GitHub：<a href="https://github.com/XiubaiZero">github.com/XiubaiZero</a></li>
+        <li>个人博客 / 技术写作主页：<a href="/retrospective/">本次公开项目复盘</a></li>
+        <li>X（Twitter）或活跃技术社区账号：暂无。</li>
+        <li>代表作品：<a href="/prices">AI API 价格助手线上版</a>；<a href="https://github.com/XiubaiZero/aiAPI">公开 GitHub 仓库</a>。</li>
+      </ol>
+
+      <h2>第 1 部分：核心项目链接</h2>
+      <ul>
+        <li>线上 URL：<a href="/">ai-api-swart.vercel.app</a></li>
+        <li>价格比较页：<a href="/prices">/prices</a></li>
+        <li>用量统计页：<a href="/calculator">/calculator</a></li>
+        <li>源代码与真实提交历史：<a href="https://github.com/XiubaiZero/aiAPI">XiubaiZero/aiAPI</a></li>
+      </ul>
+      <p class="note">项目使用 OpenAI、Anthropic、Gemini 三家官方页面的标准文本 token 定价。价格页面提供来源与北京时间查询日期；GitHub Actions 每日北京时间 00:00 核验官方数据。项目已部署到 Vercel，移动端采用响应式布局，仓库不包含 API Key。</p>
+
+      <h2>第 2 部分：AI 协作记录（10 行以内）</h2>
+      <ol>
+        <li>使用 Codex 共同拆分需求，确定仅比较三家海外供应商的标准文本 token 定价。</li>
+        <li>AI 曾建议参考 LiteLLM 数据的相似项目；经核查，这不符合“官方来源”要求，因此只保留其 UI 参考价值。</li>
+        <li>使用 Codex 生成 React + TypeScript + Vite 的基础结构与中文双页面布局。</li>
+        <li>使用 AI 协助设计价格数据 JSON、成本公式和单元测试，再由人工核对公式含义。</li>
+        <li>使用 AI 编写官方页面更新脚本与 GitHub Actions 定时任务。</li>
+        <li>官方文档结构可能变化，脚本采用解析失败即停止写入的保守策略；这一部分仍需持续维护。</li>
+        <li>使用 AI 辅助排查 GitHub Token 权限、旧 remote 地址和 Vercel SSO 部署保护问题。</li>
+        <li>手机端发现成本文字重叠后，使用 AI 协助改为纵向布局，并重新测试、构建和部署。</li>
+      </ol>
+
+      <h2>第 3 部分：公开复盘</h2>
+      <p>500 字以上复盘文章：<a href="/retrospective/">把“能算”做成“能被验证”的 AI API 价格助手</a>。</p>
+
+      <h2>第 4 部分：5 行自评</h2>
+      <ol>
+        <li>最满意的是把“官方来源、查询日期、自动更新、线上验证”做成了可检查的完整链路。</li>
+        <li>最心虚的是官方文档解析仍依赖页面文字结构，供应商改版时需要及时维护。</li>
+        <li>如果再给我 8 小时，我会补充缓存、Batch、长上下文与多模态计费场景。</li>
+        <li>这次让我最有收获的是：AI 能迅速产出方案，但数据来源、权限和线上可访问性必须亲自验证。</li>
+        <li>入职第一周我希望获得明确的真实问题、可访问的测试环境和快速反馈，以便尽快交付可验证结果。</li>
+      </ol>
+    </main>
+  </body>
+</html>

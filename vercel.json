@@ -1,5 +1,9 @@
 {
   "rewrites": [
+    { "source": "/retrospective", "destination": "/retrospective/index.html" },
+    { "source": "/retrospective/", "destination": "/retrospective/index.html" },
+    { "source": "/submission", "destination": "/submission/index.html" },
+    { "source": "/submission/", "destination": "/submission/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
