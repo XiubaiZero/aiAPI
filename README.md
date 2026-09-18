@@ -10,6 +10,15 @@ A Chinese-language, static web tool for comparing standard text-token API prices
 - Daily official-source verification workflow scheduled for 00:00 China Standard Time.
 - No user account, API key, server, or database is required.
 
+## Tech stack
+
+- [React](https://react.dev) + [TypeScript](https://www.typescriptlang.org) — UI and type-safe application code
+- [Vite](https://vite.dev) — dev server and production build
+- [lucide-react](https://lucide.dev) — icons
+- [Vitest](https://vitest.dev) — unit tests for cost calculation and input validation
+- [GitHub Actions](https://github.com/features/actions) — daily official-price verification workflow
+- [Vercel](https://vercel.com) — static hosting
+
 ## Local development
 
 ```bash
