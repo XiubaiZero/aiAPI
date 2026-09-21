@@ -46,7 +46,7 @@ The CNY estimate uses the latest available USD/CNY central parity rate published
 ## Known limitations
 
 - GitHub Actions scheduled jobs may start later than the configured minute. The UI displays the actual successful verification time.
-- Providers can restructure their documentation. The updater is intentionally conservative: if parsing fails, it does not overwrite the previously verified dataset.
+- Providers can restructure their documentation. The updater retries transient network failures; a model-price source failure prevents replacement of the verified model dataset. If only the PBoC exchange-rate source remains unavailable, model prices still update while the CNY estimate retains its last verified rate.
 - Estimates include only standard text input and output token pricing. Cache reads/writes, Batch, priority/fast tiers, long-context tiers, tools, images, audio, taxes, and negotiated enterprise prices are excluded.
 - CNY values use a reference exchange rate and are not a billing quote.
 

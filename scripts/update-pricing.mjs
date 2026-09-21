@@ -23,10 +23,35 @@ const officialSources = {
   pbcList: 'https://www.pbc.gov.cn/zhengcehuobisi/125207/125217/125925/17105-2.html',
 }
 
-async function fetchOfficial(url) {
-  const response = await fetch(url, { headers: { 'user-agent': 'AI-API-Price-Assistant/1.0 official-source-checker' } })
-  if (!response.ok) throw new Error(`Official source returned ${response.status}: ${url}`)
-  return response.text()
+const fetchAttempts = 3
+const requestTimeoutMs = 20_000
+const retryDelaysMs = [2_000, 5_000]
+
+function pause(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds))
+}
+
+async function fetchOfficial(label, url) {
+  let lastError
+
+  for (let attempt = 1; attempt <= fetchAttempts; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        headers: { 'user-agent': 'AI-API-Price-Assistant/1.0 official-source-checker' },
+        signal: AbortSignal.timeout(requestTimeoutMs),
+      })
+      if (!response.ok) throw new Error(`${label} returned HTTP ${response.status}: ${url}`)
+      return response.text()
+    } catch (error) {
+      lastError = error
+      if (attempt === fetchAttempts) break
+      const delay = retryDelaysMs[attempt - 1]
+      console.warn(`[${label}] attempt ${attempt}/${fetchAttempts} failed: ${error.message}. Retrying in ${delay / 1000}s…`)
+      await pause(delay)
+    }
+  }
+
+  throw new Error(`${label} failed after ${fetchAttempts} attempts: ${url}`, { cause: lastError })
 }
 
 function plainText(html) {
@@ -99,19 +124,17 @@ function assertSafeRecord(record) {
 }
 
 async function update() {
-  const [catalog, rate, openaiHtml, anthropicHtml, geminiPricingHtml, geminiModelsHtml, pbcListHtml] = await Promise.all([
+  const [catalog, rate, openaiHtml, anthropicHtml, geminiPricingHtml, geminiModelsHtml] = await Promise.all([
     readFile(priceFile, 'utf8').then(JSON.parse), readFile(rateFile, 'utf8').then(JSON.parse),
-    fetchOfficial(officialSources.openai), fetchOfficial(officialSources.anthropic), fetchOfficial(officialSources.geminiPricing),
-    fetchOfficial(officialSources.geminiModels), fetchOfficial(officialSources.pbcList),
+    fetchOfficial('OpenAI models', officialSources.openai),
+    fetchOfficial('Anthropic models', officialSources.anthropic),
+    fetchOfficial('Gemini pricing', officialSources.geminiPricing),
+    fetchOfficial('Gemini models', officialSources.geminiModels),
   ])
   const openai = plainText(openaiHtml)
   const anthropic = plainText(anthropicHtml)
   const geminiPricing = plainText(geminiPricingHtml)
   const geminiModels = plainText(geminiModelsHtml)
-  const latestLink = pbcListHtml.match(/href="([^"]+)"[^>]*>[^<]*人民币汇率中间价公告/)
-  if (!latestLink) throw new Error('Could not find the latest PBC central-parity announcement link')
-  const latestPbcUrl = new URL(latestLink[1], officialSources.pbcList).toString()
-  const latestPbc = plainText(await fetchOfficial(latestPbcUrl))
 
   const parsers = {
     'gpt-6-astra': () => parseOpenAi(openai, 'gpt-6-astra'),
@@ -148,17 +171,29 @@ async function update() {
     }
   })
 
-  const pbcMatch = latestPbc.match(/1美元对人民币\s*([\d.]+)元/)
-  if (!pbcMatch) throw new Error('Could not parse USD/CNY reference rate from the official PBC source list')
-  const pbcDate = latestPbc.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/)
-  if (!pbcDate) throw new Error('Could not parse the effective date from the official PBC announcement')
-  const effectiveDate = `${pbcDate[1]}-${pbcDate[2].padStart(2, '0')}-${pbcDate[3].padStart(2, '0')}`
-  const usdToCny = Number(pbcMatch[1])
-  if (!Number.isFinite(usdToCny) || usdToCny <= 0) throw new Error('Parsed invalid USD/CNY reference rate')
+  let nextRate = null
+  try {
+    const pbcListHtml = await fetchOfficial('PBC exchange-rate list', officialSources.pbcList)
+    const latestLink = pbcListHtml.match(/href="([^"]+)"[^>]*>[^<]*人民币汇率中间价公告/)
+    if (!latestLink) throw new Error('Could not find the latest PBC central-parity announcement link')
+    const latestPbcUrl = new URL(latestLink[1], officialSources.pbcList).toString()
+    const latestPbc = plainText(await fetchOfficial('PBC exchange-rate announcement', latestPbcUrl))
+    const pbcMatch = latestPbc.match(/1美元对人民币\s*([\d.]+)元/)
+    if (!pbcMatch) throw new Error('Could not parse USD/CNY reference rate from the official PBC announcement')
+    const pbcDate = latestPbc.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/)
+    if (!pbcDate) throw new Error('Could not parse the effective date from the official PBC announcement')
+    const effectiveDate = `${pbcDate[1]}-${pbcDate[2].padStart(2, '0')}-${pbcDate[3].padStart(2, '0')}`
+    const usdToCny = Number(pbcMatch[1])
+    if (!Number.isFinite(usdToCny) || usdToCny <= 0) throw new Error('Parsed invalid USD/CNY reference rate')
+    nextRate = { usdToCny, sourceUrl: latestPbcUrl, checkedAt, effectiveDate }
+  } catch (error) {
+    console.warn(`[PBC exchange rate] keeping the last verified rate (${rate.effectiveDate ?? rate.checkedAt}) because the official source could not be refreshed: ${error.message}`)
+  }
 
   await writeFile(priceFile, `${JSON.stringify({ ...catalog, updatedAt: checkedAt, models }, null, 2)}\n`)
-  await writeFile(rateFile, `${JSON.stringify({ ...rate, usdToCny, sourceUrl: latestPbcUrl, checkedAt, effectiveDate }, null, 2)}\n`)
+  if (nextRate) await writeFile(rateFile, `${JSON.stringify({ ...rate, ...nextRate }, null, 2)}\n`)
   console.log(`Verified and updated ${models.length} official model records at ${checkedAt}.`)
+  if (!nextRate) console.warn('Model prices were updated, but the CNY estimate continues to use the last verified PBC rate.')
 }
 
 update().catch((error) => { console.error(error); process.exitCode = 1 })
