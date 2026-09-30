@@ -20,7 +20,7 @@ const officialSources = {
   anthropic: 'https://platform.claude.com/docs/en/models/overview',
   geminiPricing: 'https://ai.google.dev/gemini-api/docs/pricing?hl=en',
   geminiModels: 'https://ai.google.dev/gemini-api/docs/models?hl=en',
-  pbcList: 'https://www.pbc.gov.cn/zhengcehuobisi/125207/125217/125925/17105-2.html',
+  pbcList: 'https://www.pbc.gov.cn/zhengcehuobisi/125207/125217/125925/17105-1.html',
 }
 
 const fetchAttempts = 3
@@ -90,11 +90,14 @@ function parseOpenAi(text, id) {
   return { ...price, inputContextTokens: captureLimit(slice, 'Context window'), outputContextTokens: captureLimit(slice, 'Max output') }
 }
 
-function parseAnthropic(text, modelColumn) {
-  // Anthropic's comparison table lists all current models as columns. Parse
-  // the matching column rather than searching after a model heading, which
-  // would otherwise capture the first model's price in the row.
-  const table = modelSlice(text, 'Comparative latency', 2600)
+function parseAnthropic(text, modelId) {
+  // Match the official API ID to its table column. New models can be inserted
+  // without silently assigning another model's price to this record.
+  const table = modelSlice(text, 'Comparative latency', 3500)
+  const apiIdRow = table.slice(table.indexOf('Claude API ID'), table.indexOf('Capabilities'))
+  const modelIds = [...apiIdRow.matchAll(/claude-[a-z0-9-]+/gi)].map((match) => match[0])
+  const modelColumn = modelIds.indexOf(modelId)
+  if (modelColumn < 0) throw new Error(`Could not find Anthropic API ID: ${modelId}`)
   const pricePairs = [...table.matchAll(/\$([\d.]+)\s*\/\s*input\s*MTok\s*\$([\d.]+)\s*\/\s*output\s*MTok/gi)]
   const contextRow = table.slice(table.indexOf('Context window'), table.indexOf('Max output'))
   const outputRow = table.slice(table.indexOf('Max output'), table.indexOf('Reliable knowledge cutoff'))
@@ -112,9 +115,29 @@ function parseAnthropic(text, modelColumn) {
 }
 
 function parseGemini(text, label) {
-  const slice = modelSlice(text, label, 3600)
-  const price = capturePrice(slice, /Input price[\s\S]{0,220}?\$([\d.]+)/i, /Output price[\s\S]{0,220}?\$([\d.]+)/i)
-  return { ...price }
+  const slice = modelSlice(text, label, 4200)
+  const standard = slice.split('Standard')[1]?.split('Batch')[0]
+  if (!standard) throw new Error(`Could not find Gemini Standard pricing: ${label}`)
+  const inputStart = standard.indexOf('Input price')
+  const outputStart = standard.indexOf('Output price')
+  const nextRowStart = standard.indexOf('Context caching price')
+  if (inputStart < 0 || outputStart <= inputStart || nextRowStart <= outputStart) {
+    throw new Error(`Gemini Standard price rows changed: ${label}`)
+  }
+  const inputRow = standard.slice(inputStart, outputStart)
+  const outputRow = standard.slice(outputStart, nextRowStart)
+  const currentPrice = (row) => {
+    const prices = [...row.matchAll(/\$([\d.]+)/g)].map((match) => Number(match[1]))
+    const futureDate = row.match(/starting ([A-Z][a-z]+ \d{1,2}, \d{4})/)
+    if (futureDate && now >= new Date(futureDate[1]) && prices.length > 1) return prices[1]
+    return prices[0]
+  }
+  const input = currentPrice(inputRow)
+  const output = currentPrice(outputRow)
+  if (!Number.isFinite(input) || input <= 0 || !Number.isFinite(output) || output <= 0) {
+    throw new Error(`Could not parse Gemini Standard prices: ${label}`)
+  }
+  return { input, output }
 }
 
 function assertSafeRecord(record) {
@@ -138,11 +161,11 @@ async function update() {
 
   const parsers = {
     'gpt-6-astra': () => parseOpenAi(openai, 'gpt-6-astra'),
-    'gpt-5.6-terra': () => parseOpenAi(openai, 'gpt-5.6-terra'),
-    'gpt-5.6-luna': () => parseOpenAi(openai, 'gpt-5.6-luna'),
-    'claude-opus-5': () => parseAnthropic(anthropic, 1),
-    'claude-sonnet-5': () => parseAnthropic(anthropic, 2),
-    'claude-haiku-4-5': () => parseAnthropic(anthropic, 3),
+    'gpt-6.1-sol': () => parseOpenAi(openai, 'gpt-6.1-sol'),
+    'gpt-6-luna': () => parseOpenAi(openai, 'gpt-6-luna'),
+    'claude-opus-5-5': () => parseAnthropic(anthropic, 'claude-opus-5-5'),
+    'claude-sonnet-5-5': () => parseAnthropic(anthropic, 'claude-sonnet-5-5'),
+    'claude-haiku-4-5-20251001': () => parseAnthropic(anthropic, 'claude-haiku-4-5-20251001'),
     // The official overview lists all three Gemini IDs. Price information is
     // parsed from the official pricing table; stable context limits remain
     // in the curated record unless an individual model page is added here.

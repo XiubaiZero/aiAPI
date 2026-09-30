@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-22T04:11:06+08:00",
+  "updatedAt": "2026-09-30T21:10:06+08:00",
   "models": [
     {
       "id": "gpt-6-astra",
@@ -10,59 +10,59 @@
       "inputPricePerMillionUsd": 10,
       "outputPricePerMillionUsd": 50,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
     },
     {
-      "id": "gpt-5.6-terra",
-      "name": "GPT-5.6 Terra",
+      "id": "gpt-6.1-sol",
+      "name": "GPT-6.1 Sol",
       "provider": "OpenAI",
       "inputContextTokens": 1050000,
       "outputContextTokens": 128000,
       "inputPricePerMillionUsd": 2,
-      "outputPricePerMillionUsd": 12,
+      "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
     },
     {
-      "id": "gpt-5.6-luna",
-      "name": "GPT-5.6 Luna",
+      "id": "gpt-6-luna",
+      "name": "GPT-6 Luna",
       "provider": "OpenAI",
       "inputContextTokens": 1050000,
       "outputContextTokens": 128000,
-      "inputPricePerMillionUsd": 0.2,
-      "outputPricePerMillionUsd": 1.2,
+      "inputPricePerMillionUsd": 0.1,
+      "outputPricePerMillionUsd": 0.5,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
     },
     {
-      "id": "claude-opus-5",
-      "name": "Claude Opus 5",
+      "id": "claude-opus-5-5",
+      "name": "Claude Opus 5.5",
       "provider": "Anthropic",
       "inputContextTokens": 1000000,
       "outputContextTokens": 128000,
-      "inputPricePerMillionUsd": 5,
-      "outputPricePerMillionUsd": 25,
+      "inputPricePerMillionUsd": 4,
+      "outputPricePerMillionUsd": 20,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
     },
     {
-      "id": "claude-sonnet-5",
-      "name": "Claude Sonnet 5",
+      "id": "claude-sonnet-5-5",
+      "name": "Claude Sonnet 5.5",
       "provider": "Anthropic",
       "inputContextTokens": 1000000,
       "outputContextTokens": 128000,
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
     },
     {
-      "id": "claude-haiku-4-5",
+      "id": "claude-haiku-4-5-20251001",
       "name": "Claude Haiku 4.5",
       "provider": "Anthropic",
       "inputContextTokens": 200000,
@@ -70,7 +70,7 @@
       "inputPricePerMillionUsd": 1,
       "outputPricePerMillionUsd": 5,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
     },
     {
@@ -82,7 +82,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 12,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "短上下文标准按量付费文本 token 定价；长上下文、缓存与 Batch 另行计费。"
     },
     {
@@ -94,7 +94,7 @@
       "inputPricePerMillionUsd": 0.75,
       "outputPricePerMillionUsd": 3.75,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "标准按量付费文本 token 定价；优惠期及服务层级以官方页面为准。"
     },
     {
@@ -106,7 +106,7 @@
       "inputPricePerMillionUsd": 0.25,
       "outputPricePerMillionUsd": 1.5,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "checkedAt": "2026-09-30T21:10:06+08:00",
       "note": "标准按量付费文本 token 定价；不含缓存、Batch 与其他模态费用。"
     }
   ]

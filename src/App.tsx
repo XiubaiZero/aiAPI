@@ -14,6 +14,7 @@ const models = catalog.models as unknown as ModelPrice[]
 const formatter = new Intl.NumberFormat('zh-CN')
 const currency = new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 6 })
 const cnyCurrency = new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', minimumFractionDigits: 2, maximumFractionDigits: 4 })
+const dataIsStale = Date.now() - Date.parse(catalog.updatedAt) > 48 * 60 * 60 * 1000
 
 function getPageFromPath(): Page {
   return window.location.pathname === '/calculator' ? 'calculator' : 'prices'
@@ -103,7 +104,7 @@ export default function App() {
     <main>
       <section className="hero shell">
         <div className="brand"><BarChart3 aria-hidden="true" size={25} strokeWidth={2.8} /><span>AI API 价格助手</span></div>
-        <div className="eyebrow"><CheckCircle2 aria-hidden="true" size={16} />每日核验官方定价</div>
+        <div className="eyebrow">{dataIsStale ? <Info aria-hidden="true" size={16} /> : <CheckCircle2 aria-hidden="true" size={16} />}{dataIsStale ? '官方数据超过 48 小时未核验' : '每日核验官方定价'}</div>
         <h1>海外 AI API<br className="mobile-break" /> 价格比较与用量估算</h1>
         <p>集中比较 OpenAI、Anthropic 与 Gemini 的标准文本 token 定价。</p>
         <div className="page-tabs" aria-label="页面导航">
@@ -128,6 +129,7 @@ export default function App() {
 
       <footer className="shell footer">
         <div><strong>数据更新时间：</strong>{formatBeijingDate(catalog.updatedAt)}（北京时间）</div>
+        {dataIsStale && <div>自动更新可能失败，请以各模型的官方来源价格为准。</div>}
         <div>仅用于标准文本 token 成本估算，不构成报价。</div>
       </footer>
     </main>
