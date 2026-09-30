@@ -1,10 +1,10 @@
-/**
- * Daily official-source updater.
- * It intentionally rejects incomplete parsing rather than replacing verified data
- * with data from an aggregator or an inferred value.
- */
+/** Refresh each provider independently using only its official public pages. */
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import {
+  discoverOpenAI, discoverAnthropic, discoverGeminiIndex,
+  parseGeminiDetail, parseGeminiPrice, geminiCandidate, reconcileProvider,
+} from './catalog-core.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const priceFile = resolve(root, 'src/data/pricing.json')
@@ -15,43 +15,30 @@ const checkedAt = new Intl.DateTimeFormat('sv-SE', {
   hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
 }).format(now).replace(' ', 'T') + '+08:00'
 
-const officialSources = {
-  openai: 'https://developers.openai.com/api/docs/models',
-  anthropic: 'https://platform.claude.com/docs/en/models/overview',
-  geminiPricing: 'https://ai.google.dev/gemini-api/docs/pricing?hl=en',
+const sources = {
+  OpenAI: 'https://developers.openai.com/api/docs/models',
+  Anthropic: 'https://platform.claude.com/docs/en/models/overview',
   geminiModels: 'https://ai.google.dev/gemini-api/docs/models?hl=en',
+  geminiPricing: 'https://ai.google.dev/gemini-api/docs/pricing?hl=en',
   pbcList: 'https://www.pbc.gov.cn/zhengcehuobisi/125207/125217/125925/17105-1.html',
-}
-
-const fetchAttempts = 3
-const requestTimeoutMs = 20_000
-const retryDelaysMs = [2_000, 5_000]
-
-function pause(milliseconds) {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds))
 }
 
 async function fetchOfficial(label, url) {
   let lastError
-
-  for (let attempt = 1; attempt <= fetchAttempts; attempt += 1) {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
       const response = await fetch(url, {
-        headers: { 'user-agent': 'AI-API-Price-Assistant/1.0 official-source-checker' },
-        signal: AbortSignal.timeout(requestTimeoutMs),
+        headers: { 'user-agent': 'AI-API-Price-Assistant/2.0 official-source-checker' },
+        signal: AbortSignal.timeout(20_000),
       })
-      if (!response.ok) throw new Error(`${label} returned HTTP ${response.status}: ${url}`)
+      if (!response.ok) throw new Error(`${label} HTTP ${response.status}: ${url}`)
       return response.text()
     } catch (error) {
       lastError = error
-      if (attempt === fetchAttempts) break
-      const delay = retryDelaysMs[attempt - 1]
-      console.warn(`[${label}] attempt ${attempt}/${fetchAttempts} failed: ${error.message}. Retrying in ${delay / 1000}s…`)
-      await pause(delay)
+      if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, [2_000, 5_000][attempt]))
     }
   }
-
-  throw new Error(`${label} failed after ${fetchAttempts} attempts: ${url}`, { cause: lastError })
+  throw new Error(`${label} unavailable after three attempts: ${lastError.message}`)
 }
 
 function plainText(html) {
@@ -59,164 +46,84 @@ function plainText(html) {
     .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ')
 }
 
-function modelSlice(text, anchor, length = 2400) {
-  const index = text.toLowerCase().indexOf(anchor.toLowerCase())
-  if (index < 0) throw new Error(`Could not find official model anchor: ${anchor}`)
-  return text.slice(index, index + length)
+async function updateRate(previous) {
+  const list = await fetchOfficial('PBC exchange-rate list', sources.pbcList)
+  const link = list.match(/href="([^"]+)"[^>]*>[^<]*人民币汇率中间价公告/)
+  if (!link) throw new Error('PBC latest central-parity announcement link not found')
+  const url = new URL(link[1], sources.pbcList).toString()
+  const announcement = plainText(await fetchOfficial('PBC exchange-rate announcement', url))
+  const value = announcement.match(/1美元对人民币\s*([\d.]+)元/)
+  const date = announcement.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/)
+  if (!value || !date || !(Number(value[1]) > 0)) throw new Error('PBC USD/CNY rate or date not found')
+  return { ...previous, usdToCny: Number(value[1]), sourceUrl: url, checkedAt,
+    effectiveDate: `${date[1]}-${date[2].padStart(2, '0')}-${date[3].padStart(2, '0')}` }
 }
 
-function capturePrice(slice, inputPattern, outputPattern) {
-  const input = slice.match(inputPattern)?.[1]
-  const output = slice.match(outputPattern)?.[1]
-  if (!input || !output) throw new Error(`Could not parse official input/output prices from: ${slice.slice(0, 180)}`)
-  return { input: Number(input), output: Number(output) }
-}
-
-function contextToTokens(value, unit) {
-  const number = Number(value.replace(/,/g, ''))
-  if (!Number.isFinite(number)) throw new Error('Invalid context window')
-  return unit.toLowerCase() === 'm' ? number * 1_000_000 : unit.toLowerCase() === 'k' ? number * 1_000 : number
-}
-
-function captureLimit(slice, label) {
-  const match = slice.match(new RegExp(`${label}\\s*([\\d,.]+)\\s*([kKmM])?`, 'i'))
-  if (!match) throw new Error(`Could not parse official ${label}`)
-  return contextToTokens(match[1], match[2] || '')
-}
-
-function parseOpenAi(text, id) {
-  const slice = modelSlice(text, id)
-  const price = capturePrice(slice, /Input price\s*\$([\d.]+)/i, /Output price\s*\$([\d.]+)/i)
-  return { ...price, inputContextTokens: captureLimit(slice, 'Context window'), outputContextTokens: captureLimit(slice, 'Max output') }
-}
-
-function parseAnthropic(text, modelId) {
-  // Match the official API ID to its table column. New models can be inserted
-  // without silently assigning another model's price to this record.
-  const table = modelSlice(text, 'Comparative latency', 3500)
-  const apiIdRow = table.slice(table.indexOf('Claude API ID'), table.indexOf('Capabilities'))
-  const modelIds = [...apiIdRow.matchAll(/claude-[a-z0-9-]+/gi)].map((match) => match[0])
-  const modelColumn = modelIds.indexOf(modelId)
-  if (modelColumn < 0) throw new Error(`Could not find Anthropic API ID: ${modelId}`)
-  const pricePairs = [...table.matchAll(/\$([\d.]+)\s*\/\s*input\s*MTok\s*\$([\d.]+)\s*\/\s*output\s*MTok/gi)]
-  const contextRow = table.slice(table.indexOf('Context window'), table.indexOf('Max output'))
-  const outputRow = table.slice(table.indexOf('Max output'), table.indexOf('Reliable knowledge cutoff'))
-  const contexts = [...contextRow.matchAll(/([\d.]+)\s*([kKmM])\s*tokens/gi)]
-  const outputs = [...outputRow.matchAll(/([\d.]+)\s*([kKmM])\s*tokens/gi)]
-  const price = pricePairs[modelColumn]
-  const context = contexts[modelColumn]
-  const output = outputs[modelColumn]
-  if (!price || !context || !output) throw new Error(`Could not parse Anthropic table column ${modelColumn}`)
-  return {
-    input: Number(price[1]), output: Number(price[2]),
-    inputContextTokens: contextToTokens(context[1], context[2]),
-    outputContextTokens: contextToTokens(output[1], output[2]),
-  }
-}
-
-function parseGemini(text, label) {
-  const slice = modelSlice(text, label, 4200)
-  const standard = slice.split('Standard')[1]?.split('Batch')[0]
-  if (!standard) throw new Error(`Could not find Gemini Standard pricing: ${label}`)
-  const inputStart = standard.indexOf('Input price')
-  const outputStart = standard.indexOf('Output price')
-  const nextRowStart = standard.indexOf('Context caching price')
-  if (inputStart < 0 || outputStart <= inputStart || nextRowStart <= outputStart) {
-    throw new Error(`Gemini Standard price rows changed: ${label}`)
-  }
-  const inputRow = standard.slice(inputStart, outputStart)
-  const outputRow = standard.slice(outputStart, nextRowStart)
-  const currentPrice = (row) => {
-    const prices = [...row.matchAll(/\$([\d.]+)/g)].map((match) => Number(match[1]))
-    const futureDate = row.match(/starting ([A-Z][a-z]+ \d{1,2}, \d{4})/)
-    if (futureDate && now >= new Date(futureDate[1]) && prices.length > 1) return prices[1]
-    return prices[0]
-  }
-  const input = currentPrice(inputRow)
-  const output = currentPrice(outputRow)
-  if (!Number.isFinite(input) || input <= 0 || !Number.isFinite(output) || output <= 0) {
-    throw new Error(`Could not parse Gemini Standard prices: ${label}`)
-  }
-  return { input, output }
-}
-
-function assertSafeRecord(record) {
-  for (const value of [record.input, record.output, record.inputContextTokens, record.outputContextTokens]) {
-    if (!Number.isFinite(value) || value <= 0) throw new Error(`Parsed an invalid value for ${record.id}`)
-  }
-}
-
-async function update() {
-  const [catalog, rate, openaiHtml, anthropicHtml, geminiPricingHtml, geminiModelsHtml] = await Promise.all([
-    readFile(priceFile, 'utf8').then(JSON.parse), readFile(rateFile, 'utf8').then(JSON.parse),
-    fetchOfficial('OpenAI models', officialSources.openai),
-    fetchOfficial('Anthropic models', officialSources.anthropic),
-    fetchOfficial('Gemini pricing', officialSources.geminiPricing),
-    fetchOfficial('Gemini models', officialSources.geminiModels),
+async function main() {
+  let catalog = JSON.parse(await readFile(priceFile, 'utf8'))
+  const rate = JSON.parse(await readFile(rateFile, 'utf8'))
+  const fetched = await Promise.allSettled([
+    fetchOfficial('OpenAI models', sources.OpenAI),
+    fetchOfficial('Anthropic models', sources.Anthropic),
+    fetchOfficial('Gemini models', sources.geminiModels),
+    fetchOfficial('Gemini pricing', sources.geminiPricing),
   ])
-  const openai = plainText(openaiHtml)
-  const anthropic = plainText(anthropicHtml)
-  const geminiPricing = plainText(geminiPricingHtml)
-  const geminiModels = plainText(geminiModelsHtml)
+  const issues = []
+  const providerStatus = { ...catalog.providerStatus }
+  let verifiedCount = 0
 
-  const parsers = {
-    'gpt-6-astra': () => parseOpenAi(openai, 'gpt-6-astra'),
-    'gpt-6.1-sol': () => parseOpenAi(openai, 'gpt-6.1-sol'),
-    'gpt-6-luna': () => parseOpenAi(openai, 'gpt-6-luna'),
-    'claude-opus-5-5': () => parseAnthropic(anthropic, 'claude-opus-5-5'),
-    'claude-sonnet-5-5': () => parseAnthropic(anthropic, 'claude-sonnet-5-5'),
-    'claude-haiku-4-5-20251001': () => parseAnthropic(anthropic, 'claude-haiku-4-5-20251001'),
-    // The official overview lists all three Gemini IDs. Price information is
-    // parsed from the official pricing table; stable context limits remain
-    // in the curated record unless an individual model page is added here.
-    'gemini-3.1-pro-preview': () => { modelSlice(geminiModels, 'Gemini 3.1 Pro'); return parseGemini(geminiPricing, 'Gemini 3.1 Pro') },
-    'gemini-3.8-flash': () => { modelSlice(geminiModels, 'Gemini 3.8 Flash'); return parseGemini(geminiPricing, 'Gemini 3.8 Flash') },
-    'gemini-3.1-flash-lite': () => { modelSlice(geminiModels, 'Gemini 3.1 Flash-Lite'); return parseGemini(geminiPricing, 'Gemini 3.1 Flash-Lite') },
+  for (const [provider, index, discover] of [
+    ['OpenAI', 0, (html) => discoverOpenAI(html, sources.OpenAI)],
+    ['Anthropic', 1, (html) => discoverAnthropic(html, sources.Anthropic)],
+  ]) {
+    try {
+      if (fetched[index].status === 'rejected') throw fetched[index].reason
+      const candidates = discover(fetched[index].value)
+      catalog = { ...catalog, ...reconcileProvider(catalog, provider, candidates, checkedAt) }
+      verifiedCount += candidates.filter((item) => item.record).length
+      const failed = candidates.filter((item) => item.error)
+      if (failed.length) issues.push({ provider, message: `${failed.length} 个模型缺少可核验的数据` })
+      providerStatus[provider] = { checkedAt: failed.length ? providerStatus[provider]?.checkedAt ?? null : checkedAt,
+        lastAttemptAt: checkedAt }
+    } catch (error) {
+      issues.push({ provider, message: error.message })
+      providerStatus[provider] = { checkedAt: providerStatus[provider]?.checkedAt ?? null, lastAttemptAt: checkedAt }
+    }
   }
 
-  const models = catalog.models.map((model) => {
-    const parsed = parsers[model.id]?.()
-    if (!parsed) throw new Error(`No official parser registered for ${model.id}`)
-    const verified = {
-      id: model.id,
-      ...parsed,
-      inputContextTokens: parsed.inputContextTokens ?? model.inputContextTokens,
-      outputContextTokens: parsed.outputContextTokens ?? model.outputContextTokens,
-    }
-    assertSafeRecord(verified)
-    return {
-      ...model,
-      inputPricePerMillionUsd: parsed.input,
-      outputPricePerMillionUsd: parsed.output,
-      inputContextTokens: verified.inputContextTokens,
-      outputContextTokens: verified.outputContextTokens,
-      checkedAt,
-    }
-  })
+  try {
+    if (fetched[2].status === 'rejected') throw fetched[2].reason
+    if (fetched[3].status === 'rejected') throw fetched[3].reason
+    const items = discoverGeminiIndex(fetched[2].value)
+    const candidates = await Promise.all(items.map(async (item) => {
+      try {
+        const detail = await fetchOfficial(item.id, `https://ai.google.dev/gemini-api/docs/models/${item.id}?hl=en`)
+        const limits = parseGeminiDetail(detail, item.id)
+        const price = parseGeminiPrice(fetched[3].value, item.id, now)
+        return { id: item.id, record: geminiCandidate(item, price, limits, sources.geminiPricing) }
+      } catch (error) { return { ...item, error: error.message } }
+    }))
+    catalog = { ...catalog, ...reconcileProvider(catalog, 'Gemini', candidates, checkedAt) }
+    verifiedCount += candidates.filter((item) => item.record).length
+    const failed = candidates.filter((item) => item.error)
+    if (failed.length) issues.push({ provider: 'Gemini', message: `${failed.length} 个模型缺少可核验的数据` })
+    providerStatus.Gemini = { checkedAt: failed.length ? providerStatus.Gemini?.checkedAt ?? null : checkedAt,
+      lastAttemptAt: checkedAt }
+  } catch (error) {
+    issues.push({ provider: 'Gemini', message: error.message })
+    providerStatus.Gemini = { checkedAt: providerStatus.Gemini?.checkedAt ?? null, lastAttemptAt: checkedAt }
+  }
 
   let nextRate = null
-  try {
-    const pbcListHtml = await fetchOfficial('PBC exchange-rate list', officialSources.pbcList)
-    const latestLink = pbcListHtml.match(/href="([^"]+)"[^>]*>[^<]*人民币汇率中间价公告/)
-    if (!latestLink) throw new Error('Could not find the latest PBC central-parity announcement link')
-    const latestPbcUrl = new URL(latestLink[1], officialSources.pbcList).toString()
-    const latestPbc = plainText(await fetchOfficial('PBC exchange-rate announcement', latestPbcUrl))
-    const pbcMatch = latestPbc.match(/1美元对人民币\s*([\d.]+)元/)
-    if (!pbcMatch) throw new Error('Could not parse USD/CNY reference rate from the official PBC announcement')
-    const pbcDate = latestPbc.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/)
-    if (!pbcDate) throw new Error('Could not parse the effective date from the official PBC announcement')
-    const effectiveDate = `${pbcDate[1]}-${pbcDate[2].padStart(2, '0')}-${pbcDate[3].padStart(2, '0')}`
-    const usdToCny = Number(pbcMatch[1])
-    if (!Number.isFinite(usdToCny) || usdToCny <= 0) throw new Error('Parsed invalid USD/CNY reference rate')
-    nextRate = { usdToCny, sourceUrl: latestPbcUrl, checkedAt, effectiveDate }
-  } catch (error) {
-    console.warn(`[PBC exchange rate] keeping the last verified rate (${rate.effectiveDate ?? rate.checkedAt}) because the official source could not be refreshed: ${error.message}`)
+  try { nextRate = await updateRate(rate) } catch (error) {
+    issues.push({ provider: 'PBC', message: error.message })
   }
-
-  await writeFile(priceFile, `${JSON.stringify({ ...catalog, updatedAt: checkedAt, models }, null, 2)}\n`)
-  if (nextRate) await writeFile(rateFile, `${JSON.stringify({ ...rate, ...nextRate }, null, 2)}\n`)
-  console.log(`Verified and updated ${models.length} official model records at ${checkedAt}.`)
-  if (!nextRate) console.warn('Model prices were updated, but the CNY estimate continues to use the last verified PBC rate.')
+  catalog = { ...catalog, updatedAt: verifiedCount ? checkedAt : catalog.updatedAt,
+    lastRunAt: checkedAt, providerStatus, issues }
+  await writeFile(priceFile, `${JSON.stringify(catalog, null, 2)}\n`)
+  if (nextRate) await writeFile(rateFile, `${JSON.stringify(nextRate, null, 2)}\n`)
+  console.log(`Verified ${verifiedCount} official model records at ${checkedAt}; ${catalog.models.length} current, ${catalog.archivedModels?.length ?? 0} archived.`)
+  for (const issue of issues) console.warn(`[${issue.provider}] ${issue.message}`)
 }
 
-update().catch((error) => { console.error(error); process.exitCode = 1 })
+main().catch((error) => { console.error(error); process.exitCode = 1 })

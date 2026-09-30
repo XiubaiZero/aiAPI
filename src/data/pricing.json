@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-30T21:10:06+08:00",
+  "updatedAt": "2026-09-30T22:03:08+08:00",
   "models": [
     {
       "id": "gpt-6-astra",
@@ -10,8 +10,10 @@
       "inputPricePerMillionUsd": 10,
       "outputPricePerMillionUsd": 50,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
     },
     {
       "id": "gpt-6.1-sol",
@@ -22,8 +24,10 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
     },
     {
       "id": "gpt-6-luna",
@@ -34,8 +38,24 @@
       "inputPricePerMillionUsd": 0.1,
       "outputPricePerMillionUsd": 0.5,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "标准按量付费文本 token 定价；不含缓存、Fast 模式与工具调用。"
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
+    },
+    {
+      "id": "claude-fable-5-1",
+      "name": "Claude Fable 5.1",
+      "provider": "Anthropic",
+      "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
+      "note": "标准文本 token 定价；Prompt Cache 读写另计。",
+      "inputPricePerMillionUsd": 10,
+      "outputPricePerMillionUsd": 50,
+      "inputContextTokens": 1000000,
+      "outputContextTokens": 128000,
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "missingChecks": 0
     },
     {
       "id": "claude-opus-5-5",
@@ -46,8 +66,10 @@
       "inputPricePerMillionUsd": 4,
       "outputPricePerMillionUsd": 20,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "标准文本 token 定价；Prompt Cache 读写另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
     },
     {
       "id": "claude-sonnet-5-5",
@@ -58,8 +80,10 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "标准文本 token 定价；Prompt Cache 读写另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
     },
     {
       "id": "claude-haiku-4-5-20251001",
@@ -70,20 +94,10 @@
       "inputPricePerMillionUsd": 1,
       "outputPricePerMillionUsd": 5,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "标准输入与输出 token 定价；不含 Prompt Cache 读写费用。"
-    },
-    {
-      "id": "gemini-3.1-pro-preview",
-      "name": "Gemini 3.1 Pro Preview",
-      "provider": "Gemini",
-      "inputContextTokens": 1048576,
-      "outputContextTokens": 65536,
-      "inputPricePerMillionUsd": 2,
-      "outputPricePerMillionUsd": 12,
-      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "短上下文标准按量付费文本 token 定价；长上下文、缓存与 Batch 另行计费。"
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "标准文本 token 定价；Prompt Cache 读写另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
     },
     {
       "id": "gemini-3.8-flash",
@@ -93,9 +107,117 @@
       "outputContextTokens": 65536,
       "inputPricePerMillionUsd": 0.75,
       "outputPricePerMillionUsd": 3.75,
-      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "标准按量付费文本 token 定价；优惠期及服务层级以官方页面为准。"
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
+    },
+    {
+      "id": "gemini-3.5-flash-lite",
+      "name": "Gemini 3.5 Flash-Lite",
+      "provider": "Gemini",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
+      "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
+      "inputPricePerMillionUsd": 0.3,
+      "outputPricePerMillionUsd": 2.5,
+      "inputContextTokens": 1048576,
+      "outputContextTokens": 65536,
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "missingChecks": 0
+    },
+    {
+      "id": "gemini-3.1-pro-preview",
+      "name": "Gemini 3.1 Pro Preview",
+      "provider": "Gemini",
+      "inputContextTokens": 1048576,
+      "outputContextTokens": 65536,
+      "inputPricePerMillionUsd": 2,
+      "outputPricePerMillionUsd": 12,
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "短上下文标准文本价格；超过 20 万 token 的请求、缓存及 Batch 另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
+    }
+  ],
+  "archivedModels": [
+    {
+      "id": "gpt-5.6-terra",
+      "name": "GPT-5.6 Terra",
+      "provider": "OpenAI",
+      "inputContextTokens": 1050000,
+      "outputContextTokens": 128000,
+      "inputPricePerMillionUsd": 2,
+      "outputPricePerMillionUsd": 12,
+      "sourceUrl": "https://developers.openai.com/api/docs/models",
+      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "firstSeenAt": "2026-09-22T04:11:06+08:00",
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "官方当前目录未列出",
+      "note": "归档时最后核验的标准文本 token 价格。"
+    },
+    {
+      "id": "gpt-5.6-luna",
+      "name": "GPT-5.6 Luna",
+      "provider": "OpenAI",
+      "inputContextTokens": 1050000,
+      "outputContextTokens": 128000,
+      "inputPricePerMillionUsd": 0.2,
+      "outputPricePerMillionUsd": 1.2,
+      "sourceUrl": "https://developers.openai.com/api/docs/models",
+      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "firstSeenAt": "2026-09-22T04:11:06+08:00",
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "被同系列新版取代",
+      "note": "归档时最后核验的标准文本 token 价格。"
+    },
+    {
+      "id": "claude-opus-5",
+      "name": "Claude Opus 5",
+      "provider": "Anthropic",
+      "inputContextTokens": 1000000,
+      "outputContextTokens": 128000,
+      "inputPricePerMillionUsd": 5,
+      "outputPricePerMillionUsd": 25,
+      "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
+      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "firstSeenAt": "2026-09-22T04:11:06+08:00",
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "被同系列新版取代",
+      "note": "归档时最后核验的标准文本 token 价格。"
+    },
+    {
+      "id": "claude-sonnet-5",
+      "name": "Claude Sonnet 5",
+      "provider": "Anthropic",
+      "inputContextTokens": 1000000,
+      "outputContextTokens": 128000,
+      "inputPricePerMillionUsd": 2,
+      "outputPricePerMillionUsd": 10,
+      "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
+      "checkedAt": "2026-09-22T04:11:06+08:00",
+      "firstSeenAt": "2026-09-22T04:11:06+08:00",
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "被同系列新版取代",
+      "note": "归档时最后核验的标准文本 token 价格。"
+    },
+    {
+      "id": "gemini-3-flash-preview",
+      "name": "Gemini 3 Flash Preview",
+      "provider": "Gemini",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
+      "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
+      "inputPricePerMillionUsd": 0.5,
+      "outputPricePerMillionUsd": 3,
+      "inputContextTokens": 1048576,
+      "outputContextTokens": 65536,
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "missingChecks": 0,
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "被同系列新版取代"
     },
     {
       "id": "gemini-3.1-flash-lite",
@@ -105,9 +227,78 @@
       "outputContextTokens": 65536,
       "inputPricePerMillionUsd": 0.25,
       "outputPricePerMillionUsd": 1.5,
-      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
-      "checkedAt": "2026-09-30T21:10:06+08:00",
-      "note": "标准按量付费文本 token 定价；不含缓存、Batch 与其他模态费用。"
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0,
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "被同系列新版取代"
+    },
+    {
+      "id": "gemini-3.5-flash",
+      "name": "Gemini 3.5 Flash",
+      "provider": "Gemini",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
+      "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
+      "inputPricePerMillionUsd": 1.5,
+      "outputPricePerMillionUsd": 9,
+      "inputContextTokens": 1048576,
+      "outputContextTokens": 65536,
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "missingChecks": 0,
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "被同系列新版取代"
+    },
+    {
+      "id": "gemini-3.6-flash",
+      "name": "Gemini 3.6 Flash",
+      "provider": "Gemini",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
+      "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
+      "inputPricePerMillionUsd": 0.75,
+      "outputPricePerMillionUsd": 3.75,
+      "inputContextTokens": 1048576,
+      "outputContextTokens": 65536,
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "missingChecks": 0,
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "被同系列新版取代"
+    },
+    {
+      "id": "gemini-3.7-flash",
+      "name": "Gemini 3.7 Flash",
+      "provider": "Gemini",
+      "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
+      "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
+      "inputPricePerMillionUsd": 0.75,
+      "outputPricePerMillionUsd": 3.75,
+      "inputContextTokens": 1048576,
+      "outputContextTokens": 65536,
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "missingChecks": 0,
+      "archivedAt": "2026-09-30T21:46:08+08:00",
+      "archiveReason": "被同系列新版取代"
     }
-  ]
+  ],
+  "pendingModels": [],
+  "lastRunAt": "2026-09-30T22:03:08+08:00",
+  "providerStatus": {
+    "OpenAI": {
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "lastAttemptAt": "2026-09-30T22:03:08+08:00"
+    },
+    "Anthropic": {
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "lastAttemptAt": "2026-09-30T22:03:08+08:00"
+    },
+    "Gemini": {
+      "checkedAt": "2026-09-30T22:03:08+08:00",
+      "lastAttemptAt": "2026-09-30T22:03:08+08:00"
+    }
+  },
+  "issues": []
 }

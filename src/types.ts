@@ -11,11 +11,19 @@ export interface ModelPrice {
   sourceUrl: string
   checkedAt: string
   note: string
+  firstSeenAt?: string
+  missingChecks?: number
+  archivedAt?: string
+  archiveReason?: string
 }
 
 export interface PricingCatalog {
   updatedAt: string
   models: ModelPrice[]
+  archivedModels: ModelPrice[]
+  pendingModels: Array<{ id: string; name: string; provider: Provider; reason: string }>
+  providerStatus: Partial<Record<Provider, { checkedAt: string | null; lastAttemptAt: string }>>
+  issues: Array<{ provider: string; message: string }>
 }
 
 export interface ExchangeRate {

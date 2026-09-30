@@ -29,3 +29,5 @@ jobs:
           git add src/data/pricing.json src/data/exchange-rate.json
           git diff --cached --quiet || git commit -m "chore(data): verify official API prices"
           git push
+      - name: Report unverified sources and models
+        run: npm run check-update-health

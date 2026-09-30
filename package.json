@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "update-prices": "node scripts/update-pricing.mjs"
+    "update-prices": "node scripts/update-pricing.mjs",
+    "check-update-health": "node scripts/check-update-health.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
