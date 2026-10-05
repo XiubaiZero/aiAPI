@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-05T02:52:40+08:00",
+  "updatedAt": "2026-10-06T06:14:25+08:00",
   "models": [
     {
       "id": "gpt-6-astra",
@@ -10,7 +10,7 @@
       "inputPricePerMillionUsd": 10,
       "outputPricePerMillionUsd": 50,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -24,7 +24,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -38,7 +38,7 @@
       "inputPricePerMillionUsd": 0.1,
       "outputPricePerMillionUsd": 0.5,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -54,7 +54,7 @@
       "inputContextTokens": 1000000,
       "outputContextTokens": 128000,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "missingChecks": 0
     },
     {
@@ -66,7 +66,7 @@
       "inputPricePerMillionUsd": 4,
       "outputPricePerMillionUsd": 20,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "标准文本 token 定价；Prompt Cache 读写另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -80,7 +80,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "标准文本 token 定价；Prompt Cache 读写另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -94,7 +94,7 @@
       "inputPricePerMillionUsd": 1,
       "outputPricePerMillionUsd": 5,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "标准文本 token 定价；Prompt Cache 读写另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -108,7 +108,7 @@
       "inputPricePerMillionUsd": 0.75,
       "outputPricePerMillionUsd": 3.75,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -124,7 +124,7 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "missingChecks": 0
     },
     {
@@ -136,7 +136,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 12,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "短上下文标准文本价格；超过 20 万 token 的请求、缓存及 Batch 另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -214,7 +214,7 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "missingChecks": 0,
       "archivedAt": "2026-09-30T21:46:08+08:00",
       "archiveReason": "被同系列新版取代"
@@ -228,7 +228,7 @@
       "inputPricePerMillionUsd": 0.25,
       "outputPricePerMillionUsd": 1.5,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0,
@@ -246,7 +246,7 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "missingChecks": 0,
       "archivedAt": "2026-09-30T21:46:08+08:00",
       "archiveReason": "被同系列新版取代"
@@ -262,7 +262,7 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "missingChecks": 0,
       "archivedAt": "2026-09-30T21:46:08+08:00",
       "archiveReason": "被同系列新版取代"
@@ -278,32 +278,27 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-05T02:52:40+08:00",
+      "checkedAt": "2026-10-06T06:14:25+08:00",
       "missingChecks": 0,
       "archivedAt": "2026-09-30T21:46:08+08:00",
       "archiveReason": "被同系列新版取代"
     }
   ],
   "pendingModels": [],
-  "lastRunAt": "2026-10-05T02:52:40+08:00",
+  "lastRunAt": "2026-10-06T06:14:25+08:00",
   "providerStatus": {
     "OpenAI": {
-      "checkedAt": "2026-10-05T02:52:40+08:00",
-      "lastAttemptAt": "2026-10-05T02:52:40+08:00"
+      "checkedAt": "2026-10-06T06:14:25+08:00",
+      "lastAttemptAt": "2026-10-06T06:14:25+08:00"
     },
     "Anthropic": {
-      "checkedAt": "2026-10-05T02:52:40+08:00",
-      "lastAttemptAt": "2026-10-05T02:52:40+08:00"
+      "checkedAt": "2026-10-06T06:14:25+08:00",
+      "lastAttemptAt": "2026-10-06T06:14:25+08:00"
     },
     "Gemini": {
-      "checkedAt": "2026-10-05T02:52:40+08:00",
-      "lastAttemptAt": "2026-10-05T02:52:40+08:00"
+      "checkedAt": "2026-10-06T06:14:25+08:00",
+      "lastAttemptAt": "2026-10-06T06:14:25+08:00"
     }
   },
-  "issues": [
-    {
-      "provider": "PBC",
-      "message": "PBC exchange-rate list unavailable after three attempts: fetch failed"
-    }
-  ]
+  "issues": []
 }
