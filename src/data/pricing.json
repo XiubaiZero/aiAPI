@@ -1,6 +1,20 @@
 {
-  "updatedAt": "2026-10-07T04:38:06+08:00",
+  "updatedAt": "2026-10-08T04:53:00+08:00",
   "models": [
+    {
+      "id": "claude-haiku-4-5-20251001",
+      "name": "Claude Haiku 4.5",
+      "provider": "Anthropic",
+      "inputContextTokens": 200000,
+      "outputContextTokens": 64000,
+      "inputPricePerMillionUsd": 1,
+      "outputPricePerMillionUsd": 5,
+      "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
+      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "note": "标准文本 token 定价；Prompt Cache 读写另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 1
+    },
     {
       "id": "gpt-6-astra",
       "name": "GPT-6 Astra",
@@ -10,7 +24,7 @@
       "inputPricePerMillionUsd": 10,
       "outputPricePerMillionUsd": 50,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -24,7 +38,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -38,7 +52,7 @@
       "inputPricePerMillionUsd": 0.1,
       "outputPricePerMillionUsd": 0.5,
       "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -54,7 +68,7 @@
       "inputContextTokens": 1000000,
       "outputContextTokens": 128000,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "missingChecks": 0
     },
     {
@@ -66,7 +80,7 @@
       "inputPricePerMillionUsd": 4,
       "outputPricePerMillionUsd": 20,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "note": "标准文本 token 定价；Prompt Cache 读写另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -80,21 +94,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 10,
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
-      "note": "标准文本 token 定价；Prompt Cache 读写另计。",
-      "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "missingChecks": 0
-    },
-    {
-      "id": "claude-haiku-4-5-20251001",
-      "name": "Claude Haiku 4.5",
-      "provider": "Anthropic",
-      "inputContextTokens": 200000,
-      "outputContextTokens": 64000,
-      "inputPricePerMillionUsd": 1,
-      "outputPricePerMillionUsd": 5,
-      "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "note": "标准文本 token 定价；Prompt Cache 读写另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -108,7 +108,7 @@
       "inputPricePerMillionUsd": 0.75,
       "outputPricePerMillionUsd": 3.75,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -124,7 +124,7 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "missingChecks": 0
     },
     {
@@ -136,7 +136,7 @@
       "inputPricePerMillionUsd": 2,
       "outputPricePerMillionUsd": 12,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "note": "短上下文标准文本价格；超过 20 万 token 的请求、缓存及 Batch 另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
@@ -214,7 +214,7 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "missingChecks": 0,
       "archivedAt": "2026-09-30T21:46:08+08:00",
       "archiveReason": "被同系列新版取代"
@@ -228,7 +228,7 @@
       "inputPricePerMillionUsd": 0.25,
       "outputPricePerMillionUsd": 1.5,
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing?hl=en",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "note": "标准文本 token 价格；缓存、Batch、其他模态及优惠期限以官方页面为准。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0,
@@ -246,7 +246,7 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "missingChecks": 0,
       "archivedAt": "2026-09-30T21:46:08+08:00",
       "archiveReason": "被同系列新版取代"
@@ -262,7 +262,7 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "missingChecks": 0,
       "archivedAt": "2026-09-30T21:46:08+08:00",
       "archiveReason": "被同系列新版取代"
@@ -278,27 +278,39 @@
       "inputContextTokens": 1048576,
       "outputContextTokens": 65536,
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "checkedAt": "2026-10-07T04:38:06+08:00",
+      "checkedAt": "2026-10-08T04:53:00+08:00",
       "missingChecks": 0,
       "archivedAt": "2026-09-30T21:46:08+08:00",
       "archiveReason": "被同系列新版取代"
     }
   ],
-  "pendingModels": [],
-  "lastRunAt": "2026-10-07T04:38:06+08:00",
+  "pendingModels": [
+    {
+      "id": "claude-haiku-5-5",
+      "name": "Claude Haiku 5.5",
+      "provider": "Anthropic",
+      "reason": "Incomplete official price or token limits for claude-haiku-5-5"
+    }
+  ],
+  "lastRunAt": "2026-10-08T04:53:00+08:00",
   "providerStatus": {
     "OpenAI": {
-      "checkedAt": "2026-10-07T04:38:06+08:00",
-      "lastAttemptAt": "2026-10-07T04:38:06+08:00"
+      "checkedAt": "2026-10-08T04:53:00+08:00",
+      "lastAttemptAt": "2026-10-08T04:53:00+08:00"
     },
     "Anthropic": {
       "checkedAt": "2026-10-07T04:38:06+08:00",
-      "lastAttemptAt": "2026-10-07T04:38:06+08:00"
+      "lastAttemptAt": "2026-10-08T04:53:00+08:00"
     },
     "Gemini": {
-      "checkedAt": "2026-10-07T04:38:06+08:00",
-      "lastAttemptAt": "2026-10-07T04:38:06+08:00"
+      "checkedAt": "2026-10-08T04:53:00+08:00",
+      "lastAttemptAt": "2026-10-08T04:53:00+08:00"
     }
   },
-  "issues": []
+  "issues": [
+    {
+      "provider": "Anthropic",
+      "message": "1 个模型缺少可核验的数据"
+    }
+  ]
 }
