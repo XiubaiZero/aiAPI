@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-11T05:32:50+08:00",
+  "updatedAt": "2026-11-12T06:21:36+08:00",
   "models": [
     {
       "id": "gemini-3.8-flash",
@@ -44,62 +44,6 @@
       "missingChecks": 0
     },
     {
-      "id": "gpt-6-astra",
-      "name": "GPT-6 Astra",
-      "provider": "OpenAI",
-      "inputContextTokens": 1050000,
-      "outputContextTokens": 128000,
-      "inputPricePerMillionUsd": 10,
-      "outputPricePerMillionUsd": 50,
-      "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-11-11T05:32:50+08:00",
-      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
-      "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "missingChecks": 0
-    },
-    {
-      "id": "gpt-6.1-sol",
-      "name": "GPT-6.1 Sol",
-      "provider": "OpenAI",
-      "inputContextTokens": 1050000,
-      "outputContextTokens": 128000,
-      "inputPricePerMillionUsd": 2,
-      "outputPricePerMillionUsd": 10,
-      "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-11-11T05:32:50+08:00",
-      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
-      "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "missingChecks": 0
-    },
-    {
-      "id": "gpt-6.1-terra",
-      "name": "GPT-6.1 Terra",
-      "provider": "OpenAI",
-      "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
-      "inputPricePerMillionUsd": 1,
-      "outputPricePerMillionUsd": 5,
-      "inputContextTokens": 1050000,
-      "outputContextTokens": 128000,
-      "firstSeenAt": "2026-10-27T04:48:03+08:00",
-      "checkedAt": "2026-11-11T05:32:50+08:00",
-      "missingChecks": 0
-    },
-    {
-      "id": "gpt-6-luna",
-      "name": "GPT-6 Luna",
-      "provider": "OpenAI",
-      "inputContextTokens": 1050000,
-      "outputContextTokens": 128000,
-      "inputPricePerMillionUsd": 0.1,
-      "outputPricePerMillionUsd": 0.5,
-      "sourceUrl": "https://developers.openai.com/api/docs/models",
-      "checkedAt": "2026-11-11T05:32:50+08:00",
-      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
-      "firstSeenAt": "2026-09-30T21:46:08+08:00",
-      "missingChecks": 0
-    },
-    {
       "id": "claude-fable-5-2",
       "name": "Claude Fable 5.2",
       "provider": "Anthropic",
@@ -138,6 +82,62 @@
       "sourceUrl": "https://platform.claude.com/docs/en/models/overview",
       "checkedAt": "2026-11-11T05:32:50+08:00",
       "note": "标准文本 token 定价；Prompt Cache 读写另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
+    },
+    {
+      "id": "gpt-6-astra",
+      "name": "GPT-6 Astra",
+      "provider": "OpenAI",
+      "inputContextTokens": 1050000,
+      "outputContextTokens": 128000,
+      "inputPricePerMillionUsd": 10,
+      "outputPricePerMillionUsd": 50,
+      "sourceUrl": "https://developers.openai.com/api/docs/models",
+      "checkedAt": "2026-11-12T06:21:36+08:00",
+      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
+    },
+    {
+      "id": "gpt-6.1-sol",
+      "name": "GPT-6.1 Sol",
+      "provider": "OpenAI",
+      "inputContextTokens": 1050000,
+      "outputContextTokens": 128000,
+      "inputPricePerMillionUsd": 2,
+      "outputPricePerMillionUsd": 10,
+      "sourceUrl": "https://developers.openai.com/api/docs/models",
+      "checkedAt": "2026-11-12T06:21:36+08:00",
+      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
+      "firstSeenAt": "2026-09-30T21:46:08+08:00",
+      "missingChecks": 0
+    },
+    {
+      "id": "gpt-6.1-terra",
+      "name": "GPT-6.1 Terra",
+      "provider": "OpenAI",
+      "sourceUrl": "https://developers.openai.com/api/docs/models",
+      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
+      "inputPricePerMillionUsd": 1,
+      "outputPricePerMillionUsd": 5,
+      "inputContextTokens": 1050000,
+      "outputContextTokens": 128000,
+      "firstSeenAt": "2026-10-27T04:48:03+08:00",
+      "checkedAt": "2026-11-12T06:21:36+08:00",
+      "missingChecks": 0
+    },
+    {
+      "id": "gpt-6-luna",
+      "name": "GPT-6 Luna",
+      "provider": "OpenAI",
+      "inputContextTokens": 1050000,
+      "outputContextTokens": 128000,
+      "inputPricePerMillionUsd": 0.1,
+      "outputPricePerMillionUsd": 0.5,
+      "sourceUrl": "https://developers.openai.com/api/docs/models",
+      "checkedAt": "2026-11-12T06:21:36+08:00",
+      "note": "标准文本 token 定价；缓存、Fast 模式及工具调用另计。",
       "firstSeenAt": "2026-09-30T21:46:08+08:00",
       "missingChecks": 0
     }
@@ -324,25 +324,25 @@
       "reason": "Incomplete official price or token limits for claude-haiku-5-5"
     }
   ],
-  "lastRunAt": "2026-11-11T05:32:50+08:00",
+  "lastRunAt": "2026-11-12T06:21:36+08:00",
   "providerStatus": {
     "OpenAI": {
-      "checkedAt": "2026-11-11T05:32:50+08:00",
-      "lastAttemptAt": "2026-11-11T05:32:50+08:00"
+      "checkedAt": "2026-11-12T06:21:36+08:00",
+      "lastAttemptAt": "2026-11-12T06:21:36+08:00"
     },
     "Anthropic": {
       "checkedAt": "2026-10-07T04:38:06+08:00",
-      "lastAttemptAt": "2026-11-11T05:32:50+08:00"
+      "lastAttemptAt": "2026-11-12T06:21:36+08:00"
     },
     "Gemini": {
       "checkedAt": "2026-11-02T03:56:50+08:00",
-      "lastAttemptAt": "2026-11-11T05:32:50+08:00"
+      "lastAttemptAt": "2026-11-12T06:21:36+08:00"
     }
   },
   "issues": [
     {
       "provider": "Anthropic",
-      "message": "1 个模型缺少可核验的数据"
+      "message": "Anthropic comparison table not found"
     },
     {
       "provider": "Gemini",
